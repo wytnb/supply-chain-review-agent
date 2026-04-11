@@ -1,0 +1,91 @@
+{
+  "group_id": "G11",
+  "scenario_type": "multi_risk",
+  "domain": "制造业采购-工业辅料",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G11",
+      "title": "氟化清洗液采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G11",
+      "title": "氟化清洗液报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G11",
+      "title": "氟化清洗液采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "苏州凯米工业化学品有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "USD",
+    "tax_rate": "0%",
+    "payment_terms": "预付20%，提单复印件后付80%",
+    "delivery_date": "2026-05-30",
+    "receiver_location": "江苏省苏州市华辰表面处理车间化学品仓",
+    "line_items": [
+      {
+        "item_code": "CHE-FL-6001",
+        "item_name": "氟化清洗液",
+        "spec_model": "KF-88 25kg/桶",
+        "quantity": 40,
+        "unit": "桶",
+        "unit_price": 118.0,
+        "tax_included": false,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "单价不一致",
+    "币种/税率不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "单价不一致",
+      "conflict_field": "unit_price",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": 118.0,
+        "quotation": 118.0,
+        "po": 860.0
+      }
+    },
+    {
+      "risk_type": "币种/税率不一致",
+      "conflict_field": "currency,tax_rate",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "USD / 0%",
+        "quotation": "USD / 0%",
+        "po": "CNY / 13%"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 将进口结算条件改为国内含税结算，且单价同步变化，存在高风险商务偏差。",
+    "human_review_points": "核对是否由进口采购切换为国内现货采购；若无依据，该订单不能直接执行。",
+    "final_disposition": "要求采购重新确认结算模式并修正 PO。"
+  },
+  "notes": "多风险样本，验证外币与单价联动异常。"
+}
+

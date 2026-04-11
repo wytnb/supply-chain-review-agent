@@ -1,0 +1,76 @@
+{
+  "group_id": "G07",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-机械备件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G07",
+      "title": "气动隔膜阀采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G07",
+      "title": "气动隔膜阀报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G07",
+      "title": "气动隔膜阀采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "上海欧科流体设备有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "验收合格后月结30天",
+    "delivery_date": "2026-05-28",
+    "receiver_location": "江苏省苏州市华辰动力事业部设备备件库",
+    "line_items": [
+      {
+        "item_code": "MEC-PV-4401",
+        "item_name": "气动隔膜阀",
+        "spec_model": "OK-DV25-SS304",
+        "quantity": 30,
+        "unit": "台",
+        "unit_price": 5200.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "币种/税率不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "币种/税率不一致",
+      "conflict_field": "currency,tax_rate",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "CNY / 13%",
+        "quotation": "CNY / 13%",
+        "po": "USD / 0%"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 币种和税率同时偏离已确认商务条件，存在结算和税务处理风险。",
+    "human_review_points": "确认是否改为进口结算场景；若无补充审批，不应切换币种和税率。",
+    "final_disposition": "退回修改 PO 币税信息并重新走审批。"
+  },
+  "notes": "单风险样本，验证币种与税率一致性校验。"
+}
+

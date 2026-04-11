@@ -1,0 +1,91 @@
+{
+  "group_id": "G12",
+  "scenario_type": "multi_risk",
+  "domain": "制造业采购-机械备件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G12",
+      "title": "深沟球轴承采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G12",
+      "title": "深沟球轴承报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G12",
+      "title": "深沟球轴承采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "常熟博信设备部件有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结30天",
+    "delivery_date": "2026-05-16",
+    "receiver_location": "江苏省太仓市华辰设备维护仓",
+    "line_items": [
+      {
+        "item_code": "MEC-BR-1208",
+        "item_name": "深沟球轴承",
+        "spec_model": "6208-2RS SKF 替代级",
+        "quantity": 200,
+        "unit": "套",
+        "unit_price": 98.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "交期不一致",
+    "缺少关键条款"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "交期不一致",
+      "conflict_field": "delivery_date",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "2026-05-16",
+        "quotation": "确认订单后20天交付",
+        "po": "2026-05-26"
+      }
+    },
+    {
+      "risk_type": "缺少关键条款",
+      "conflict_field": "contract_clauses",
+      "source_documents": [
+        "contract.md"
+      ],
+      "values": {
+        "missing_clauses": [
+          "验收条款",
+          "质量/质保条款",
+          "违约责任条款"
+        ]
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "合同缺少关键履约条款，且 PO 交期晚于约定日期。",
+    "human_review_points": "优先补全合同条款，再确认交期延期是否已获计划部门批准。",
+    "final_disposition": "中止下单，补全合同并修正交期后重审。"
+  },
+  "notes": "多风险样本，验证交期异常与关键条款缺失并存。"
+}
+

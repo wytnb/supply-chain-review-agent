@@ -1,0 +1,116 @@
+{
+  "group_id": "G13",
+  "scenario_type": "multi_risk",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G13",
+      "title": "运放芯片及电阻采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G13",
+      "title": "运放芯片及电阻报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G13",
+      "title": "运放芯片及电阻采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "东莞迅联电子科技有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结45天",
+    "delivery_date": "2026-05-24",
+    "receiver_location": "江苏省苏州市华辰 SMT 备料仓",
+    "line_items": [
+      {
+        "item_code": "ELC-IC-9910",
+        "item_name": "运放芯片",
+        "spec_model": "XL358 工业级",
+        "quantity": 10000,
+        "unit": "颗",
+        "unit_price": 1.25,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      },
+      {
+        "item_code": "ELC-RS-9911",
+        "item_name": "精密电阻",
+        "spec_model": "10K 0.1% 0805",
+        "quantity": 15000,
+        "unit": "颗",
+        "unit_price": 0.12,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "数量不一致",
+    "单价不一致",
+    "付款条件不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "数量不一致",
+      "conflict_field": "quantity",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract_line_1": 10000,
+        "quotation_line_1": 10000,
+        "po_line_1": 12000
+      }
+    },
+    {
+      "risk_type": "单价不一致",
+      "conflict_field": "unit_price",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract_line_1": 1.25,
+        "quotation_line_1": 1.25,
+        "po_line_1": 1.3
+      }
+    },
+    {
+      "risk_type": "付款条件不一致",
+      "conflict_field": "payment_terms",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "月结 45 天",
+        "quotation": "月结 45 天",
+        "po": "预付 30%，余款月结 30 天"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 首行数量与单价同时变化，且付款条件偏离原确认条件。",
+    "human_review_points": "确认是否因加单导致重新议价；如是，应补充审批和新的确认单据。",
+    "final_disposition": "在数量、价格、付款条件重新审批前，不得释放订单。"
+  },
+  "notes": "多风险样本，验证多字段叠加异常。"
+}
+

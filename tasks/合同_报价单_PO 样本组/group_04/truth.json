@@ -1,0 +1,76 @@
+{
+  "group_id": "G04",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-工业辅料",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G04",
+      "title": "精密清洗剂采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G04",
+      "title": "精密清洗剂报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G04",
+      "title": "精密清洗剂采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "常州普纳工业辅料有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "预付30%，余款月结30天",
+    "delivery_date": "2026-05-08",
+    "receiver_location": "江苏省苏州市吴中区华辰表面处理车间危化品暂存区",
+    "line_items": [
+      {
+        "item_code": "CHE-CN-3110",
+        "item_name": "精密清洗剂",
+        "spec_model": "PN-CLEAN-20L",
+        "quantity": 80,
+        "unit": "桶",
+        "unit_price": 218.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "单价不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "单价不一致",
+      "conflict_field": "unit_price",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": 218.0,
+        "quotation": 218.0,
+        "po": 226.0
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 单价高于合同与报价单确认价格，存在超价采购风险。",
+    "human_review_points": "核对 PO 是否误用了旧价格或已发生未经审批的价格调整。",
+    "final_disposition": "退回采购修改 PO 单价，或补充调价审批依据。"
+  },
+  "notes": "单风险样本，验证含税单价一致性校验。"
+}
+

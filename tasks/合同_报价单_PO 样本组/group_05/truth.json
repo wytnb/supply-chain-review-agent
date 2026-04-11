@@ -1,0 +1,75 @@
+{
+  "group_id": "G05",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G05",
+      "title": "贴片电容采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G05",
+      "title": "贴片电容报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G05",
+      "title": "贴片电容采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "深圳安栩电子元件有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结60天",
+    "delivery_date": "2026-05-20",
+    "receiver_location": "江苏省苏州市华辰 SMT 事业部来料区",
+    "line_items": [
+      {
+        "item_code": "ELC-CP-5508",
+        "item_name": "贴片电容",
+        "spec_model": "22uF 50V X7R 1210",
+        "quantity": 20000,
+        "unit": "只",
+        "unit_price": 0.48,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "交期不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "交期不一致",
+      "conflict_field": "delivery_date",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "2026-05-20",
+        "quotation": "订单确认后30天交付",
+        "po": "2026-05-30"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 交期晚于合同约定交期，存在生产停线风险。",
+    "human_review_points": "确认是否经计划部门批准延期，以及报价交期是否被正确换算。",
+    "final_disposition": "要求采购与供应商重新确认交期或补充延期审批。"
+  },
+  "notes": "单风险样本，验证交期字段一致性校验。"
+}

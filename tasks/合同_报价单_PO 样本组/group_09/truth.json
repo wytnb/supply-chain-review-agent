@@ -1,0 +1,101 @@
+{
+  "group_id": "G09",
+  "scenario_type": "multi_risk",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G09",
+      "title": "连接器及线束组件采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G09",
+      "title": "连接器及线束组件报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G09",
+      "title": "连接器及线束组件采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "无锡科盈电子有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结30天",
+    "delivery_date": "2026-05-25",
+    "receiver_location": "江苏省苏州市华辰电子装联仓",
+    "line_items": [
+      {
+        "item_code": "ELC-CN-7001",
+        "item_name": "屏蔽连接器",
+        "spec_model": "16Pin 直角型",
+        "quantity": 2000,
+        "unit": "只",
+        "unit_price": 8.6,
+        "tax_included": true,
+        "delivery_batch": "首批60%，尾批40%"
+      },
+      {
+        "item_code": "ELC-CB-7002",
+        "item_name": "线束组件",
+        "spec_model": "WH-24A 300mm",
+        "quantity": 800,
+        "unit": "套",
+        "unit_price": 22.5,
+        "tax_included": true,
+        "delivery_batch": "首批60%，尾批40%"
+      }
+    ]
+  },
+  "expected_risks": [
+    "供应商不一致",
+    "付款条件不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "供应商不一致",
+      "conflict_field": "supplier_name",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "无锡科盈电子有限公司",
+        "quotation": "无锡科盈电子有限公司",
+        "po": "无锡科盈电子科技有限公司"
+      }
+    },
+    {
+      "risk_type": "付款条件不一致",
+      "conflict_field": "payment_terms",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "月结 30 天",
+        "quotation": "月结 30 天",
+        "po": "预付 50%，余款月结 30 天"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 同时存在供应商主体变化和付款条件变更，属于高风险组合异常。",
+    "human_review_points": "先核对供应商主数据，再确认预付款是否具备审批依据。",
+    "final_disposition": "整单退回，待供应商与付款条款全部修正后重提。"
+  },
+  "notes": "多风险样本，验证供应商与付款条件联合校验。"
+}
+

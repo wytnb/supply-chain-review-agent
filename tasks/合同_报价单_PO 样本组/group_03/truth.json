@@ -1,0 +1,76 @@
+{
+  "group_id": "G03",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-机械备件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G03",
+      "title": "伺服联轴器采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G03",
+      "title": "伺服联轴器报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G03",
+      "title": "伺服联轴器采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "昆山恒拓机电设备有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "货到验收合格后60天内付款",
+    "delivery_date": "2026-05-18",
+    "receiver_location": "江苏省太仓市华辰装配事业部备件仓",
+    "line_items": [
+      {
+        "item_code": "MEC-CP-7780",
+        "item_name": "伺服联轴器",
+        "spec_model": "SJ-45 铝合金",
+        "quantity": 120,
+        "unit": "套",
+        "unit_price": 185.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "数量不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "数量不一致",
+      "conflict_field": "quantity",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": 120,
+        "quotation": 120,
+        "po": 100
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 下单数量少于合同及报价单约定数量，存在欠采风险。",
+    "human_review_points": "确认是否为分批下单；若是分批采购，应在 PO 或备注中明确批次计划。",
+    "final_disposition": "若非分批下单，退回修改数量；若为分批，则补充交付批次说明。"
+  },
+  "notes": "单风险样本，验证数量字段一致性校验。"
+}
+

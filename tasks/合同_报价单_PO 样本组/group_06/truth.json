@@ -1,0 +1,76 @@
+{
+  "group_id": "G06",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-包装材料",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G06",
+      "title": "瓦楞纸箱采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G06",
+      "title": "瓦楞纸箱报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G06",
+      "title": "瓦楞纸箱采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "青岛铭川包装科技有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结45天",
+    "delivery_date": "2026-05-15",
+    "receiver_location": "江苏省常熟市华辰包材周转仓",
+    "line_items": [
+      {
+        "item_code": "PKG-CT-3100",
+        "item_name": "五层瓦楞纸箱",
+        "spec_model": "420x320x260mm",
+        "quantity": 5000,
+        "unit": "只",
+        "unit_price": 6.2,
+        "tax_included": true,
+        "delivery_batch": "分两批交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "付款条件不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "付款条件不一致",
+      "conflict_field": "payment_terms",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "月结 45 天",
+        "quotation": "月结 45 天",
+        "po": "预付 50%，余款货到 30 天内支付"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 付款条件与合同、报价单不一致，存在超授权付款安排风险。",
+    "human_review_points": "确认是否存在预付款审批或付款条款变更的补充协议。",
+    "final_disposition": "要求采购按已审批付款条件修订 PO。"
+  },
+  "notes": "单风险样本，验证付款条件一致性校验。"
+}
+

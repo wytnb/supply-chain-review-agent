@@ -1,0 +1,76 @@
+{
+  "group_id": "G01",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G01",
+      "title": "工业级温度传感器采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G01",
+      "title": "工业级温度传感器报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G01",
+      "title": "工业级温度传感器采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "苏州锐达电子科技有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结30天",
+    "delivery_date": "2026-05-12",
+    "receiver_location": "江苏省苏州市工业园区星华街 88 号华辰一厂收货平台",
+    "line_items": [
+      {
+        "item_code": "ELC-TS-1001",
+        "item_name": "工业级温度传感器",
+        "spec_model": "PT100-A-4W",
+        "quantity": 500,
+        "unit": "个",
+        "unit_price": 36.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "供应商不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "供应商不一致",
+      "conflict_field": "supplier_name",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "苏州锐达电子科技有限公司",
+        "quotation": "苏州锐达电子科技有限公司",
+        "po": "苏州锐达电子材料有限公司"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "合同与报价单供应商一致，但 PO 供应商名称发生变化，存在下单主体错配风险。",
+    "human_review_points": "核对 PO 供应商是否为同一法人主体或是否误选供应商主数据。",
+    "final_disposition": "退回采购员修正 PO 供应商后再流转审批。"
+  },
+  "notes": "单风险样本，验证供应商名称跨单据一致性校验。"
+}
+

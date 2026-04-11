@@ -1,0 +1,1555 @@
+app:
+  description: "### 2.1 项目背景\n\n制造业采购场景中，采购合同、供应商报价单、PO 三类文档通常由不同角色、不同系统、不同模板生成。人工逐项核对存在以下问题：\n\
+    \n- 审查耗时长，尤其在多行项目、外币结算、分批交付场景下效率低。\n- 容易漏看供应商主体、付款条件、税率、交期等关键异常。\n- 缺少统一的初审标准，经验依赖重。\n\
+    - 人工复核过程与最终结论往往缺少结构化留痕。\n\n### 2.2 项目定位\n\n本项目是面向企业内部采购审查场景的业务型 Agent 系统。  \n\
+    V1 的核心能力是：上传采购合同、供应商报价单、PO 后，自动抽取字段、完成跨文档一致性校验、识别风险与边界事项、输出审查报告，并支持人工复核与过程留痕。"
+  icon: memo
+  icon_background: '#E4FBCC'
+  mode: workflow
+  name: 供应链采购文件审查agent
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:0.0.7@8fc496b3892344da47db6125c76fc0dbfd8020753f198032751d83f561d9443e
+    version: null
+kind: app
+version: 0.4.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1775551166150-source-1775552832693-target
+      source: '1775551166150'
+      sourceHandle: source
+      target: '1775552832693'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1775551166150-source-1775552891221-target
+      source: '1775551166150'
+      sourceHandle: source
+      target: '1775552891221'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1775551166150-source-1775552925423-target
+      source: '1775551166150'
+      sourceHandle: source
+      target: '1775552925423'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1775552832693-source-1775553041396-target
+      source: '1775552832693'
+      sourceHandle: source
+      target: '1775553041396'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1775552891221-source-17755558006690-target
+      source: '1775552891221'
+      sourceHandle: source
+      target: '17755558006690'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1775552925423-source-17755558034200-target
+      source: '1775552925423'
+      sourceHandle: source
+      target: '17755558034200'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1775553041396-source-code_normalize-target
+      source: '1775553041396'
+      sourceHandle: source
+      target: code_normalize
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 17755558006690-source-code_normalize-target
+      source: '17755558006690'
+      sourceHandle: source
+      target: code_normalize
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 17755558034200-source-code_normalize-target
+      source: '17755558034200'
+      sourceHandle: source
+      target: code_normalize
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: code_normalize-source-code_match-target
+      source: code_normalize
+      sourceHandle: source
+      target: code_match
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: code_normalize-source-code_header-target
+      source: code_normalize
+      sourceHandle: source
+      target: code_header
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: code_match-source-iteration_line_item-target
+      source: code_match
+      sourceHandle: source
+      target: iteration_line_item
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: iteration_line_item
+        sourceType: iteration-start
+        targetType: code
+      id: iteration_line_itemstart-source-code_line_check-target
+      source: iteration_line_itemstart
+      sourceHandle: source
+      target: code_line_check
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: iteration_line_item-source-code_aggregate-target
+      source: iteration_line_item
+      sourceHandle: source
+      target: code_aggregate
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: code_header-source-code_aggregate-target
+      source: code_header
+      sourceHandle: source
+      target: code_aggregate
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: code_aggregate-source-template_report-target
+      source: code_aggregate
+      sourceHandle: source
+      target: template_report
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: template_report-source-end_review-target
+      source: template_report
+      sourceHandle: source
+      target: end_review
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: 节点名称：Start；输入：contract_file、quotation_file、po_file、review_task_id、reviewer_role；输出：三单文件与审查上下文；处理：接收固定三单输入并向后续抽取与规则节点传递任务上下文。
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions:
+          - .PDF
+          - .DOCX
+          - .XLSX
+          - .MD
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: contract_file
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: file
+          variable: contract_file
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: quotation_file
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: file
+          variable: quotation_file
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: po_file
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: file
+          variable: po_file
+        - default: ''
+          hint: ''
+          label: review_task_id
+          max_length: 128
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: review_task_id
+        - default: ''
+          hint: ''
+          label: reviewer_role
+          max_length: 48
+          options:
+          - procurement
+          - finance
+          - legal
+          placeholder: ''
+          required: false
+          type: select
+          variable: reviewer_role
+      height: 190
+      id: '1775551166150'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 节点名称：DocExtractor_Contract；输入：contract_file；输出：合同全文文本；处理：将合同文件转换为下游 LLM 可读取文本。
+        is_array_file: false
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1775551166150'
+        - contract_file
+      height: 119
+      id: '1775552832693'
+      position:
+        x: 381
+        y: 282
+      positionAbsolute:
+        x: 381
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 节点名称：DocExtractor_Quotation；输入：quotation_file；输出：报价单全文文本；处理：将报价单文件转换为下游 LLM 可读取文本。
+        is_array_file: false
+        selected: false
+        title: 文档提取器 2
+        type: document-extractor
+        variable_selector:
+        - '1775551166150'
+        - quotation_file
+      height: 119
+      id: '1775552891221'
+      position:
+        x: 381
+        y: 440
+      positionAbsolute:
+        x: 381
+        y: 440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 节点名称：DocExtractor_PO；输入：po_file；输出：PO 全文文本；处理：将采购订单文件转换为下游 LLM 可读取文本。
+        is_array_file: false
+        selected: false
+        title: 文档提取器 3
+        type: document-extractor
+        variable_selector:
+        - '1775551166150'
+        - po_file
+      height: 119
+      id: '1775552925423'
+      position:
+        x: 381
+        y: 598
+      positionAbsolute:
+        x: 381
+        y: 598
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        default_value:
+        - key: text
+          type: string
+          value: '{   "extraction_status": "FAILED_FALLBACK",   "doc_type": "contract",   "doc_no":
+            "",   "supplier_name": "",   "buyer_name": "",   "currency": "",   "tax_rate":
+            "",   "payment_terms_raw": "",   "payment_terms_norm": "",   "delivery_date_raw":
+            "",   "delivery_date_norm": "",   "receiver_location": "",   "has_acceptance_clause":
+            false,   "has_warranty_clause": false,   "has_breach_clause": false,   "missing_clause_list":
+            [],   "line_items": [],   "low_confidence_fields": [     "__NODE_FAILED__"   ]
+            }'
+        desc: 节点名称：LLM_Extract_Contract；输入：合同全文文本；输出：合同结构化字段 JSON；处理：只做字段抽取与低置信度标记，不做风险判断。
+        error_strategy: default-value
+        model:
+          completion_params:
+            temperature: 0
+          mode: chat
+          name: qwen3:8b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 6b8d507e-4137-4478-83ab-0a3787bd410d
+          role: system
+          text: "你是采购单据结构化抽取引擎。\n\n任务：\n从输入的文档文本中抽取指定字段，并严格按照 JSON Schema 返回 structured_output。\n\
+            \n硬性要求：\n1. 只做字段抽取，不做风险判断，不做建议，不做总结。\n2. 缺失字段不要编造。\n3. 无法确认时，字符串填空字符串，数组填空数组，布尔填\
+            \ false，并把字段名写入 low_confidence_fields。\n4. 保留原文语义，同时尽量标准化：\n   - 日期统一为\
+            \ YYYY-MM-DD；无法标准化时保留原文到 *_raw。\n   - 数量和单价转为数字；无法确认时留空字符串。\n   - 币种统一为\
+            \ CNY / USD / EUR 等标准代码；无法确认时留空字符串。\n5. 如果文档中出现多个候选值，选择最明确、最接近正式交易条款的值。\n\
+            6. 输出必须只包含结构化结果，不要输出任何解释文字。"
+        - id: eb69dc3a-4fa5-4c8c-b1d3-a8165d9019c0
+          role: user
+          text: '文档类型：采购合同
+
+
+            请从以下文档文本中抽取字段：
+
+
+            {{#1775552832693.text#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: true
+        structured_output:
+          schema:
+            properties:
+              buyer_name:
+                description: 采购方/甲方名称
+                type: string
+              currency:
+                description: 币种，尽量标准化为 CNY/USD/EUR 等
+                type: string
+              delivery_date_norm:
+                description: 标准化交期，如果可标准化则输出 YYYY-MM-DD
+                type: string
+              delivery_date_raw:
+                description: 原始交期描述
+                type: string
+              doc_no:
+                description: 合同编号
+                type: string
+              doc_type:
+                description: 固定为 contract
+                enum:
+                - contract
+                type: string
+              extraction_status:
+                description: 提取结果（SUCCESS/FAILED_FALLBACK）
+                type: string
+              has_acceptance_clause:
+                description: 是否存在验收条款
+                type: boolean
+              has_breach_clause:
+                description: 是否存在违约责任条款
+                type: boolean
+              has_warranty_clause:
+                description: 是否存在质保条款
+                type: boolean
+              line_items:
+                description: 合同中的物料行项目
+                items:
+                  properties:
+                    delivery_batch_norm:
+                      description: 标准化交期或批次描述
+                      type: string
+                    delivery_batch_raw:
+                      description: 原始分批交付/交期文本
+                      type: string
+                    item_code:
+                      description: 物料编码
+                      type: string
+                    item_name:
+                      description: 物料名称
+                      type: string
+                    line_no:
+                      description: 行号
+                      type: string
+                    quantity:
+                      description: 数量，建议输出纯数字字符串
+                      type: string
+                    spec_model:
+                      description: 规格/型号
+                      type: string
+                    tax_included:
+                      description: 单价是否含税
+                      type: boolean
+                    unit:
+                      description: 单位
+                      type: string
+                    unit_price:
+                      description: 含税或未税单价原值，建议输出纯数字字符串
+                      type: string
+                  required:
+                  - line_no
+                  - item_code
+                  - item_name
+                  - spec_model
+                  - quantity
+                  - unit
+                  - unit_price
+                  - tax_included
+                  - delivery_batch_raw
+                  - delivery_batch_norm
+                  type: object
+                type: array
+              low_confidence_fields:
+                description: 模型无法确定或有歧义的字段名列表
+                items:
+                  type: string
+                type: array
+              missing_clause_list:
+                description: 缺失的关键条款名称列表
+                items:
+                  type: string
+                type: array
+              payment_terms_norm:
+                description: 归一化付款条件，例如 30D/预付100%
+                type: string
+              payment_terms_raw:
+                description: 原始付款条件文本
+                type: string
+              receiver_location:
+                description: 收货地点/交货地点
+                type: string
+              supplier_name:
+                description: 供应商名称/乙方名称
+                type: string
+              tax_rate:
+                description: 税率，例如 13%
+                type: string
+            required:
+            - doc_type
+            - doc_no
+            - supplier_name
+            - buyer_name
+            - currency
+            - tax_rate
+            - payment_terms_raw
+            - payment_terms_norm
+            - delivery_date_raw
+            - delivery_date_norm
+            - receiver_location
+            - has_acceptance_clause
+            - has_warranty_clause
+            - has_breach_clause
+            - missing_clause_list
+            - line_items
+            - low_confidence_fields
+            - extraction_status
+            type: object
+        structured_output_enabled: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 179
+      id: '1775553041396'
+      position:
+        x: 682
+        y: 282
+      positionAbsolute:
+        x: 682
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        code: |
+          # 算法说明：对三份抽取结果做 NFKC 归一、空白清洗、币种/税率/日期/数值标准化，
+          # 并为每个行项目生成 match_key；规则为优先 item_code，否则 item_name + spec_model。
+          import json,re,unicodedata
+          def p(v):
+              if isinstance(v,dict): return v
+              if isinstance(v,str) and v.strip():
+                  try: return json.loads(v)
+                  except Exception: return {}
+              return {}
+          def t(v): return re.sub(r"[ \t]+"," ",unicodedata.normalize("NFKC","" if v is None else str(v))).strip()
+          def key(v): return re.sub(r"\s+","",t(v)).lower()
+          def cur(v):
+              m={"人民币":"CNY","rmb":"CNY","cny":"CNY","美元":"USD","usd":"USD","欧元":"EUR","eur":"EUR"}
+              k=key(v); return m.get(k,t(v).upper())
+          def tax(v):
+              s=t(v).replace("税率","").replace("增值税","")
+              m=re.search(r"(\d+(?:\.\d+)?)",s)
+              if not m: return s
+              n=m.group(1).rstrip("0").rstrip("."); return f"{n}%"
+          def num(v):
+              s=t(v).replace(",",""); m=re.search(r"-?\d+(?:\.\d+)?",s)
+              return m.group(0) if m else s
+          def dt(v):
+              s=t(v); out=[]
+              for y,m,d in re.findall(r"(20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})日?",s):
+                  out.append(f"{int(y):04d}-{int(m):02d}-{int(d):02d}")
+              return "/".join(dict.fromkeys(out)) if out else s
+          def pay(raw,norm):
+              s=t(norm) or t(raw); k=key(s)
+              mp={"月结30天":"月结30天","验收合格后月结30天":"月结30天","net30":"月结30天","预付100%":"预付100%","到港单据齐全后45天付款":"到港单据齐全后45天付款"}
+              return mp.get(k,s)
+          def mk(item):
+              code=t(item.get("item_code","")).upper()
+              return code if code else f"{key(item.get('item_name',''))}|{key(item.get('spec_model',''))}"
+          def norm_item(item):
+              x={"line_no":t(item.get("line_no","")),"item_code":t(item.get("item_code","")).upper(),"item_name":t(item.get("item_name","")),"spec_model":t(item.get("spec_model","")),"quantity":num(item.get("quantity","")),"unit":t(item.get("unit","")),"unit_price":num(item.get("unit_price","")),"tax_included":bool(item.get("tax_included",False)),"delivery_batch_raw":t(item.get("delivery_batch_raw","")),"delivery_batch_norm":dt(item.get("delivery_batch_norm","")) or dt(item.get("delivery_batch_raw",""))}
+              x["match_key"]=mk(x); return x
+          def norm_doc(doc,doc_type):
+              return {"doc_type":doc_type,"doc_no":t(doc.get("doc_no","")),"supplier_name":t(doc.get("supplier_name","")),"buyer_name":t(doc.get("buyer_name","")),"currency":cur(doc.get("currency","")),"tax_rate":tax(doc.get("tax_rate","")),"payment_terms_raw":t(doc.get("payment_terms_raw","")),"payment_terms_norm":pay(doc.get("payment_terms_raw",""),doc.get("payment_terms_norm","")),"delivery_date_raw":t(doc.get("delivery_date_raw","")),"delivery_date_norm":dt(doc.get("delivery_date_norm","")) or dt(doc.get("delivery_date_raw","")),"receiver_location":t(doc.get("receiver_location","")),"line_items":[norm_item(i) for i in doc.get("line_items",[])],"low_confidence_fields":doc.get("low_confidence_fields",[]) or [],"extraction_status":t(doc.get("extraction_status","")) or "SUCCESS","has_acceptance_clause":bool(doc.get("has_acceptance_clause",False)),"has_warranty_clause":bool(doc.get("has_warranty_clause",False)),"has_breach_clause":bool(doc.get("has_breach_clause",False)),"missing_clause_list":doc.get("missing_clause_list",[]) or []}
+          def main(contract_text:str,quotation_text:str,po_text:str,review_task_id:str="",reviewer_role:str="")->dict:
+              c=norm_doc(p(contract_text),"contract"); q=norm_doc(p(quotation_text),"quotation"); o=norm_doc(p(po_text),"po")
+              warns=[]
+              for d in [c,q,o]:
+                  if d["extraction_status"]!="SUCCESS": warns.append(f"{d['doc_type']} extraction_status={d['extraction_status']}")
+                  warns += [f"{d['doc_type']} low_confidence={f}" for f in d["low_confidence_fields"]]
+              overview={"review_task_id":t(review_task_id),"reviewer_role":t(reviewer_role),"documents":[{"doc_type":d["doc_type"],"doc_no":d["doc_no"],"supplier_name":d["supplier_name"],"buyer_name":d["buyer_name"],"currency":d["currency"],"tax_rate":d["tax_rate"],"line_item_count":len(d["line_items"])} for d in [c,q,o]]}
+              return {"normalized_documents_json":json.dumps({"contract":c,"quotation":q,"po":o},ensure_ascii=False),"normalization_warnings_json":json.dumps(warns,ensure_ascii=False),"document_overview_json":json.dumps(overview,ensure_ascii=False)}
+        code_language: python3
+        desc: 节点名称：Code_Normalize_Documents；输入：3 个 LLM_Extract 结果、review_task_id、reviewer_role；输出：normalized_documents_json、normalization_warnings_json、document_overview_json；处理：统一空白、币种、税率、日期、数值和付款条件，并生成 match_key。
+        outputs:
+          normalized_documents_json:
+            children: null
+            type: string
+          normalization_warnings_json:
+            children: null
+            type: string
+          document_overview_json:
+            children: null
+            type: string
+        selected: false
+        title: Code Normalize Documents
+        type: code
+        variables:
+        - value_selector:
+          - '1775553041396'
+          - text
+          value_type: string
+          variable: contract_text
+        - value_selector:
+          - '17755558006690'
+          - text
+          value_type: string
+          variable: quotation_text
+        - value_selector:
+          - '17755558034200'
+          - text
+          value_type: string
+          variable: po_text
+        - value_selector:
+          - '1775551166150'
+          - review_task_id
+          value_type: string
+          variable: review_task_id
+        - value_selector:
+          - '1775551166150'
+          - reviewer_role
+          value_type: string
+          variable: reviewer_role
+      height: 118
+      id: code_normalize
+      position:
+        x: 983
+        y: 420
+      positionAbsolute:
+        x: 983
+        y: 420
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 280
+    - data:
+        code: |
+          # 算法说明：按标准化后的 match_key 对齐 contract、quotation、po 三单行项目；
+          # 无法唯一匹配时只标记 manual_review_candidate，不在本节点直接产出正式风险。
+          import json
+          def p(v):
+              if isinstance(v,dict): return v
+              if isinstance(v,str) and v.strip(): return json.loads(v)
+              return {}
+          def idx(items):
+              mp={}; dup=set()
+              for item in items:
+                  k=item.get("match_key","")
+                  if not k: continue
+                  if k in mp: dup.add(k)
+                  mp.setdefault(k,[]).append(item)
+              return mp,dup
+          def main(normalized_documents_json:str)->dict:
+              docs=p(normalized_documents_json); c=docs.get("contract",{}); q=docs.get("quotation",{}); o=docs.get("po",{})
+              ci,cd=idx(c.get("line_items",[])); qi,qd=idx(q.get("line_items",[])); oi,od=idx(o.get("line_items",[]))
+              out=[]
+              for k in sorted(set(ci)|set(qi)|set(oi)):
+                  cs,qs,os=ci.get(k,[]),qi.get(k,[]),oi.get(k,[])
+                  manual=(k in cd or k in qd or k in od or len(cs)>1 or len(qs)>1 or len(os)>1)
+                  reason=[]
+                  if manual: reason.append("存在重复或歧义 match_key")
+                  if not cs or not qs or not os: reason.append("至少一份单据缺少该 match_key")
+                  if not reason: reason.append("三单已按 match_key 对齐")
+                  out.append(json.dumps({"match_key":k,"contract_item":cs[0] if cs else None,"quotation_item":qs[0] if qs else None,"po_item":os[0] if os else None,"match_confidence":"LOW" if manual else "HIGH","match_reason":"；".join(reason),"manual_review_candidate":manual},ensure_ascii=False))
+              return {"matched_items":out}
+        code_language: python3
+        desc: 节点名称：Code_Match_Line_Items；输入：normalized_documents_json；输出：matched_items；处理：按三单行项目的 match_key 对齐，无法唯一匹配时仅保留人工复核候选标记。
+        outputs:
+          matched_items:
+            children: null
+            type: array[string]
+        selected: false
+        title: Code Match Line Items
+        type: code
+        variables:
+        - value_selector:
+          - code_normalize
+          - normalized_documents_json
+          value_type: string
+          variable: normalized_documents_json
+      height: 102
+      id: code_match
+      position:
+        x: 1304
+        y: 420
+      positionAbsolute:
+        x: 1304
+        y: 420
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 280
+    - data:
+        desc: 节点名称：Iteration_Line_Item_Check；输入：matched_items；输出：逐项检查结果数组；处理：对每个匹配行项目执行同一套物料、数量、价格、行级交期与人工复核规则。
+        error_handle_mode: terminated
+        flatten_output: false
+        height: 188
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - code_match
+        - matched_items
+        output_selector:
+        - code_line_check
+        - result_json
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: iteration_line_itemstart
+        title: Iteration Line Item Check
+        type: iteration
+        width: 420
+      height: 188
+      id: iteration_line_item
+      position:
+        x: 1640
+        y: 380
+      positionAbsolute:
+        x: 1640
+        y: 380
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 420
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: iteration_line_itemstart
+      parentId: iteration_line_item
+      position:
+        x: 24
+        y: 70
+      positionAbsolute:
+        x: 1664
+        y: 450
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        code: |
+          # 算法说明：对单个已匹配行项目执行确定性规则检查；
+          # 覆盖 R002、R003、R004、行级 R005 与 MR001，不让模型直接裁决风险。
+          import json
+          from difflib import SequenceMatcher
+          def p(v):
+              if isinstance(v,dict): return v
+              if isinstance(v,str) and v.strip(): return json.loads(v)
+              return {}
+          def nn(xs): return [x for x in xs if x not in (None,"",[])]
+          def flt(v):
+              try: return float(v)
+              except Exception: return None
+          def add(arr,code,name,sev,loc,msg,evi,key=""):
+              arr.append({"rule_code":code,"rule_name":name,"severity":sev,"finding_type":"risk" if code.startswith("R") else "manual_review_flag","location":loc,"message":msg,"evidence":evi,"match_key":key})
+          def main(arg1:str)->dict:
+              m=p(arg1); ck=m.get("contract_item") or {}; qk=m.get("quotation_item") or {}; pk=m.get("po_item") or {}; key=m.get("match_key","")
+              risks=[]; manuals=[]; evidence=[{"match_key":key,"match_confidence":m.get("match_confidence",""),"match_reason":m.get("match_reason","")}]
+              names=nn([ck.get("item_name"),qk.get("item_name"),pk.get("item_name")]); codes=nn([ck.get("item_code"),qk.get("item_code"),pk.get("item_code")]); specs=nn([ck.get("spec_model"),qk.get("spec_model"),pk.get("spec_model")]); qtys=nn([ck.get("quantity"),qk.get("quantity"),pk.get("quantity")]); prices=nn([ck.get("unit_price"),qk.get("unit_price"),pk.get("unit_price")]); dels=nn([ck.get("delivery_batch_norm"),qk.get("delivery_batch_norm"),pk.get("delivery_batch_norm")])
+              if m.get("manual_review_candidate"): add(manuals,"MR001","近似物料名待确认","MR","line_item","该行项目匹配存在歧义，需人工确认唯一映射。",{"match_reason":m.get("match_reason","")},key)
+              miss=[n for n,it in [("contract",ck),("quotation",qk),("po",pk)] if not it]
+              if miss:
+                  add(risks,"R002","物料不一致","P1","line_item",f"该 match_key 在部分单据中缺失：{', '.join(miss)}。",{"missing_docs":miss,"match_reason":m.get("match_reason","")},key)
+              else:
+                  sim=1.0 if len(names)<2 else min([SequenceMatcher(None,names[0],x).ratio() for x in names[1:]] or [1.0])
+                  same_names=len(set(names))<=1; same_codes=len(set(codes))<=1; same_specs=len(set(specs))<=1
+                  if not same_names:
+                      if same_codes and same_specs and sim>=0.55:
+                          add(manuals,"MR001","近似物料名待确认","MR","line_item","物料名称存在近义或别名差异，但编码与规格一致。",{"names":names,"codes":codes,"specs":specs,"similarity":round(sim,3)},key)
+                      else:
+                          add(risks,"R002","物料不一致","P1","line_item","物料名称、编码或规格在三单之间不一致。",{"names":names,"codes":codes,"specs":specs},key)
+                  elif (not same_codes) or (not same_specs):
+                      add(risks,"R002","物料不一致","P1","line_item","物料编码或规格在三单之间不一致。",{"names":names,"codes":codes,"specs":specs},key)
+              nqty=[x for x in [flt(v) for v in qtys] if x is not None]
+              if len(set(nqty))>1: add(risks,"R003","数量不一致","P1","line_item","该行项目数量在三单之间不一致。",{"quantities":qtys},key)
+              npri=[x for x in [flt(v) for v in prices] if x is not None]
+              if len(set(npri))>1: add(risks,"R004","单价不一致","P1","line_item","该行项目单价在三单之间不一致。",{"prices":prices},key)
+              if len(set(dels))>1: add(risks,"R005","交期不一致","P2","line_item","该行项目分批交付或行级交期在三单之间不一致。",{"deliveries":dels},key)
+              return {"result_json":json.dumps({"match_key":key,"item_findings":risks,"item_manual_flags":manuals,"item_evidence":evidence},ensure_ascii=False)}
+        code_language: python3
+        desc: 节点名称：Line_Item_Check；输入：单个 matched_item；输出：result_json；处理：对单个行项目执行 R002、R003、R004、行级 R005 与 MR001 的确定性检查。
+        isInIteration: true
+        isInLoop: false
+        iteration_id: iteration_line_item
+        outputs:
+          result_json:
+            children: null
+            type: string
+        selected: false
+        title: Line Item Check
+        type: code
+        variables:
+        - value_selector:
+          - iteration_line_item
+          - item
+          value_type: string
+          variable: arg1
+      height: 102
+      id: code_line_check
+      parentId: iteration_line_item
+      position:
+        x: 96
+        y: 70
+      positionAbsolute:
+        x: 1736
+        y: 450
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 290
+      zIndex: 1002
+    - data:
+        code: |
+          # 算法说明：对三单头部字段和合同关键条款执行确定性检查；
+          # 覆盖 R001、头部 R005、R006、R007、R008，以及半结构化条款人工复核 MR002。
+          import json,re
+          def p(v):
+              if isinstance(v,(dict,list)): return v
+              if isinstance(v,str) and v.strip(): return json.loads(v)
+              return {}
+          def vals(*xs): return [x for x in xs if x not in ("",None,[])]
+          def semi(s):
+              s=(s or "").strip(); marks=["验收","开票","月底","工作周","首批","剩余","前支付","后支付","不晚于","分两批","分批"]
+              return bool(s) and any(m in s for m in marks)
+          def toks(s): return set(re.findall(r"20\d{2}-\d{2}-\d{2}|\d+%|\d+",s or ""))
+          def add(arr,code,name,sev,loc,msg,evi):
+              arr.append({"rule_code":code,"rule_name":name,"severity":sev,"finding_type":"risk" if code.startswith("R") else "manual_review_flag","location":loc,"message":msg,"evidence":evi})
+          def main(normalized_documents_json:str,normalization_warnings_json:str)->dict:
+              docs=p(normalized_documents_json); warns=p(normalization_warnings_json); c=docs.get("contract",{}); q=docs.get("quotation",{}); o=docs.get("po",{}); out=[]
+              sup=vals(c.get("supplier_name"),q.get("supplier_name"),o.get("supplier_name"))
+              if len(set(sup))>1: add(out,"R001","供应商不一致","P1","header","合同、报价单、PO 的供应商名称不一致。",{"contract":c.get("supplier_name"),"quotation":q.get("supplier_name"),"po":o.get("supplier_name")})
+              cur=vals(c.get("currency"),q.get("currency"),o.get("currency")); tax=vals(c.get("tax_rate"),q.get("tax_rate"),o.get("tax_rate"))
+              if len(set(cur))>1 or len(set(tax))>1: add(out,"R007","币种/税率不一致","P1","header","三单的币种或税率不一致。",{"currency_values":cur,"tax_values":tax})
+              dnorm=vals(c.get("delivery_date_norm"),q.get("delivery_date_norm"),o.get("delivery_date_norm")); draw=[c.get("delivery_date_raw",""),q.get("delivery_date_raw",""),o.get("delivery_date_raw","")]
+              if len(set(dnorm))>1:
+                  if (semi(c.get("delivery_date_raw","")) or semi(q.get("delivery_date_raw",""))) and set().union(*[toks(x) for x in draw]):
+                      add(out,"MR002","半结构化条款待确认","MR","header","交期条款存在半结构化自然语言描述，需人工确认与 PO 是否语义一致。",{"delivery_norms":dnorm,"delivery_raws":draw})
+                  else:
+                      add(out,"R005","交期不一致","P2","header","头部交期在三单之间不一致。",{"delivery_norms":dnorm,"delivery_raws":draw})
+              pnorm=vals(c.get("payment_terms_norm"),q.get("payment_terms_norm"),o.get("payment_terms_norm")); praw=[c.get("payment_terms_raw",""),q.get("payment_terms_raw",""),o.get("payment_terms_raw","")]
+              if len(set(pnorm))>1:
+                  if (semi(c.get("payment_terms_raw","")) or semi(q.get("payment_terms_raw",""))) and set().union(*[toks(x) for x in praw]):
+                      add(out,"MR002","半结构化条款待确认","MR","header","付款条款存在半结构化自然语言描述，需人工确认与 PO 是否语义一致。",{"payment_norms":pnorm,"payment_raws":praw})
+                  else:
+                      add(out,"R006","付款条件不一致","P1","header","付款条件在三单之间不一致。",{"payment_norms":pnorm,"payment_raws":praw})
+              miss=(c.get("missing_clause_list",[]) or [])[:]
+              if not c.get("has_acceptance_clause",False): miss.append("验收条款")
+              if not c.get("has_warranty_clause",False): miss.append("质量/质保条款")
+              if not c.get("has_breach_clause",False): miss.append("违约责任条款")
+              miss=list(dict.fromkeys(miss))
+              if miss: add(out,"R008","缺少关键条款","P1","contract_clause","合同缺少验收、质量/质保或违约责任中的关键条款。",{"missing_clause_list":miss})
+              if warns: out.append({"rule_code":"INFO_NORMALIZATION_WARNING","rule_name":"抽取低置信度提示","severity":"INFO","finding_type":"info","location":"normalization","message":"存在抽取低置信度字段，已作为证据保留，不单独触发正式风险或人工复核结论。","evidence":{"warnings":warns}})
+              return {"header_findings_json":json.dumps(out,ensure_ascii=False)}
+        code_language: python3
+        desc: 节点名称：Code_Header_And_Clause_Check；输入：normalized_documents_json、normalization_warnings_json；输出：header_findings_json；处理：执行供应商、头部交期、付款条件、币种税率、关键条款和 MR002 的确定性检查。
+        outputs:
+          header_findings_json:
+            children: null
+            type: string
+        selected: false
+        title: Code Header And Clause Check
+        type: code
+        variables:
+        - value_selector:
+          - code_normalize
+          - normalized_documents_json
+          value_type: string
+          variable: normalized_documents_json
+        - value_selector:
+          - code_normalize
+          - normalization_warnings_json
+          value_type: string
+          variable: normalization_warnings_json
+      height: 118
+      id: code_header
+      position:
+        x: 1644
+        y: 620
+      positionAbsolute:
+        x: 1644
+        y: 620
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 300
+    - data:
+        code: |
+          # 算法说明：把逐项检查结果和头部检查结果做扁平化、去重、排序和结论聚合；
+          # 聚合规则固定为“有正式风险即 REJECT；否则有人工复核项即 MANUAL_REVIEW；否则 PASS”。
+          import json
+          def p(v,d):
+              if isinstance(v,(dict,list)): return v
+              if isinstance(v,str) and v.strip(): return json.loads(v)
+              return d
+          def dedupe(fs):
+              out=[]; seen=set()
+              for f in fs:
+                  k=(f.get("rule_code",""),f.get("location",""),f.get("match_key",""),json.dumps(f.get("evidence",{}),ensure_ascii=False,sort_keys=True))
+                  if k in seen: continue
+                  seen.add(k); out.append(f)
+              return out
+          def pri(f): return {"P1":0,"P2":1,"MR":2,"INFO":3}.get(f.get("severity","INFO"),9)
+          def lines(fs):
+              if not fs: return "- 无"
+              arr=[]
+              for f in fs:
+                  msg=f.get("message","")
+                  if f.get("match_key"): msg += f"（match_key={f.get('match_key')}）"
+                  arr.append(f"- [{f.get('rule_code','')}] {f.get('rule_name','')}：{msg}")
+              return "\n".join(arr)
+          def evs(fs):
+              if not fs: return "- 无"
+              return "\n".join([f"- {f.get('rule_code','')}：{json.dumps(f.get('evidence',{}),ensure_ascii=False)}" for f in fs])
+          def overview(ov):
+              docs=ov.get("documents",[])
+              if not docs: return "- 无"
+              arr=[]
+              if ov.get("review_task_id") or ov.get("reviewer_role"): arr.append(f"- 审查任务：{ov.get('review_task_id') or '未提供'} / 角色：{ov.get('reviewer_role') or '未提供'}")
+              for d in docs: arr.append(f"- {d.get('doc_type','')}: 编号={d.get('doc_no','') or '未识别'}，供应商={d.get('supplier_name','') or '未识别'}，币种={d.get('currency','') or '未识别'}，税率={d.get('tax_rate','') or '未识别'}，行项目数={d.get('line_item_count',0)}")
+              return "\n".join(arr)
+          def main(line_item_results:list,header_findings_json:str,document_overview_json:str)->dict:
+              parsed=[p(x,{}) for x in (line_item_results or [])]; header=p(header_findings_json,[]); ov=p(document_overview_json,{})
+              allf=[]
+              for it in parsed: allf += it.get("item_findings",[]) + it.get("item_manual_flags",[]) + it.get("item_evidence",[])
+              allf += header; allf=sorted(dedupe(allf),key=pri)
+              risks=[f for f in allf if f.get("rule_code","").startswith("R")]; manuals=[f for f in allf if f.get("rule_code","").startswith("MR")]; infos=[f for f in allf if f.get("finding_type")=="info"]
+              final="REJECT" if risks else ("MANUAL_REVIEW" if manuals else "PASS")
+              rc=len(risks); mc=len(manuals); summary=f"本次审查结论为 {final}。命中 {rc} 项正式风险，{mc} 项人工复核事项。"
+              acts=[]; 
+              if risks: acts.append("- 退回采购经办人修正正式风险项后重新发起审查。")
+              if manuals: acts.append("- 将人工复核项提交给对应业务角色进行确认，并在 Dify 外部系统留痕。")
+              if not acts: acts.append("- 当前未发现阻断性风险，可进入后续采购流程。")
+              report={"final_decision":final,"risk_count":rc,"manual_review_count":mc,"findings":allf,"document_overview":ov,"summary":summary,"audit_stub":{"review_task_id":ov.get("review_task_id",""),"reviewer_role":ov.get("reviewer_role",""),"model_provider":"langgenius/ollama/ollama","model_name":"qwen3:8b","workflow_version":"0.4.0"}}
+              return {"review_report_json":json.dumps(report,ensure_ascii=False,indent=2),"final_decision":final,"summary":summary,"document_overview_md":overview(ov),"risk_lines":lines(risks),"manual_review_lines":lines(manuals),"evidence_lines":evs(risks+manuals+infos),"recommended_actions":"\n".join(acts),"risk_count":rc,"manual_review_count":mc}
+        code_language: python3
+        desc: 节点名称：Code_Aggregate_Findings；输入：逐项检查结果、header_findings_json、document_overview_json；输出：review_report_json 与模板渲染字段；处理：扁平化、去重、排序并聚合 PASS/REJECT/MANUAL_REVIEW。
+        outputs:
+          review_report_json:
+            children: null
+            type: string
+          final_decision:
+            children: null
+            type: string
+          summary:
+            children: null
+            type: string
+          document_overview_md:
+            children: null
+            type: string
+          risk_lines:
+            children: null
+            type: string
+          manual_review_lines:
+            children: null
+            type: string
+          evidence_lines:
+            children: null
+            type: string
+          recommended_actions:
+            children: null
+            type: string
+          risk_count:
+            children: null
+            type: number
+          manual_review_count:
+            children: null
+            type: number
+        selected: false
+        title: Code Aggregate Findings
+        type: code
+        variables:
+        - value_selector:
+          - iteration_line_item
+          - output
+          value_type: array[string]
+          variable: line_item_results
+        - value_selector:
+          - code_header
+          - header_findings_json
+          value_type: string
+          variable: header_findings_json
+        - value_selector:
+          - code_normalize
+          - document_overview_json
+          value_type: string
+          variable: document_overview_json
+      height: 166
+      id: code_aggregate
+      position:
+        x: 2088
+        y: 460
+      positionAbsolute:
+        x: 2088
+        y: 460
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 320
+    - data:
+        desc: 节点名称：Template_Render_Report；输入：聚合后的审查结论、概览、风险、人工复核、证据与建议动作；输出：review_report_markdown；处理：按固定 6 段模板渲染中文 Markdown 初审报告。
+        selected: false
+        template: |
+          # 供应链采购文件初审报告
+
+          ## 1. 审查结论
+          - 最终结论：{{ final_decision }}
+          - 正式风险数：{{ risk_count }}
+          - 人工复核数：{{ manual_review_count }}
+          - 摘要：{{ summary }}
+
+          ## 2. 文档概览
+          {{ document_overview_md }}
+
+          ## 3. 命中风险清单
+          {{ risk_lines }}
+
+          ## 4. 待人工复核事项
+          {{ manual_review_lines }}
+
+          ## 5. 关键证据
+          {{ evidence_lines }}
+
+          ## 6. 建议动作
+          {{ recommended_actions }}
+        title: Template Render Report
+        type: template-transform
+        variables:
+        - value_selector:
+          - code_aggregate
+          - final_decision
+          value_type: string
+          variable: final_decision
+        - value_selector:
+          - code_aggregate
+          - risk_count
+          value_type: number
+          variable: risk_count
+        - value_selector:
+          - code_aggregate
+          - manual_review_count
+          value_type: number
+          variable: manual_review_count
+        - value_selector:
+          - code_aggregate
+          - summary
+          value_type: string
+          variable: summary
+        - value_selector:
+          - code_aggregate
+          - document_overview_md
+          value_type: string
+          variable: document_overview_md
+        - value_selector:
+          - code_aggregate
+          - risk_lines
+          value_type: string
+          variable: risk_lines
+        - value_selector:
+          - code_aggregate
+          - manual_review_lines
+          value_type: string
+          variable: manual_review_lines
+        - value_selector:
+          - code_aggregate
+          - evidence_lines
+          value_type: string
+          variable: evidence_lines
+        - value_selector:
+          - code_aggregate
+          - recommended_actions
+          value_type: string
+          variable: recommended_actions
+      height: 144
+      id: template_report
+      position:
+        x: 2450
+        y: 460
+      positionAbsolute:
+        x: 2450
+        y: 460
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 320
+    - data:
+        desc: 节点名称：End；输入：review_report_markdown、review_report_json；输出：对外返回的 Markdown 报告与 JSON 报告；处理：作为 Workflow 最终输出节点返回初审结果。
+        outputs:
+        - value_selector:
+          - template_report
+          - output
+          value_type: string
+          variable: review_report_markdown
+        - value_selector:
+          - code_aggregate
+          - review_report_json
+          value_type: string
+          variable: review_report_json
+        selected: false
+        title: 结束
+        type: end
+      height: 118
+      id: end_review
+      position:
+        x: 2810
+        y: 460
+      positionAbsolute:
+        x: 2810
+        y: 460
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 260
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        default_value:
+        - key: text
+          type: string
+          value: '{   "extraction_status": "FAILED_FALLBACK",   "doc_type": "quotation",   "doc_no":
+            "",   "supplier_name": "",   "buyer_name": "",   "currency": "",   "tax_rate":
+            "",   "payment_terms_raw": "",   "payment_terms_norm": "",   "delivery_date_raw":
+            "",   "delivery_date_norm": "",   "receiver_location": "",   "line_items":
+            [],   "low_confidence_fields": [     "__NODE_FAILED__"   ] }'
+        desc: 节点名称：LLM_Extract_Quotation；输入：报价单全文文本；输出：报价单结构化字段 JSON；处理：只做字段抽取与低置信度标记，不做风险判断。
+        error_strategy: default-value
+        model:
+          completion_params:
+            temperature: 0
+          mode: chat
+          name: qwen3:8b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 6b8d507e-4137-4478-83ab-0a3787bd410d
+          role: system
+          text: "你是采购单据结构化抽取引擎。\n\n任务：\n从输入的文档文本中抽取指定字段，并严格按照 JSON Schema 返回 structured_output。\n\
+            \n硬性要求：\n1. 只做字段抽取，不做风险判断，不做建议，不做总结。\n2. 缺失字段不要编造。\n3. 无法确认时，字符串填空字符串，数组填空数组，布尔填\
+            \ false，并把字段名写入 low_confidence_fields。\n4. 保留原文语义，同时尽量标准化：\n   - 日期统一为\
+            \ YYYY-MM-DD；无法标准化时保留原文到 *_raw。\n   - 数量和单价转为数字；无法确认时留空字符串。\n   - 币种统一为\
+            \ CNY / USD / EUR 等标准代码；无法确认时留空字符串。\n5. 如果文档中出现多个候选值，选择最明确、最接近正式交易条款的值。\n\
+            6. 输出必须只包含结构化结果，不要输出任何解释文字。"
+        - id: eb69dc3a-4fa5-4c8c-b1d3-a8165d9019c0
+          role: user
+          text: '文档类型：报价单
+
+
+            请从以下文档文本中抽取字段：
+
+
+            {{#1775552891221.text#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              buyer_name:
+                description: 采购方/询价方名称
+                type: string
+              currency:
+                description: 币种，尽量标准化为 CNY/USD/EUR 等
+                type: string
+              delivery_date_norm:
+                description: 标准化交期，如果可标准化则输出 YYYY-MM-DD
+                type: string
+              delivery_date_raw:
+                description: 原始交期描述
+                type: string
+              doc_no:
+                description: 报价单编号
+                type: string
+              doc_type:
+                description: 固定为 quotation
+                enum:
+                - quotation
+                type: string
+              extraction_status:
+                description: 提取结果（SUCCESS/FAILED_FALLBACK）
+                type: string
+              line_items:
+                description: 报价单中的物料行项目
+                items:
+                  properties:
+                    delivery_batch_norm:
+                      description: 标准化交期或批次描述
+                      type: string
+                    delivery_batch_raw:
+                      description: 原始分批交付/交期文本
+                      type: string
+                    item_code:
+                      description: 物料编码
+                      type: string
+                    item_name:
+                      description: 物料名称
+                      type: string
+                    line_no:
+                      description: 行号
+                      type: string
+                    quantity:
+                      description: 数量，建议输出纯数字字符串
+                      type: string
+                    spec_model:
+                      description: 规格/型号
+                      type: string
+                    tax_included:
+                      description: 单价是否含税
+                      type: boolean
+                    unit:
+                      description: 单位
+                      type: string
+                    unit_price:
+                      description: 含税或未税单价原值，建议输出纯数字字符串
+                      type: string
+                  required:
+                  - line_no
+                  - item_code
+                  - item_name
+                  - spec_model
+                  - quantity
+                  - unit
+                  - unit_price
+                  - tax_included
+                  - delivery_batch_raw
+                  - delivery_batch_norm
+                  type: object
+                type: array
+              low_confidence_fields:
+                description: 模型无法确定或有歧义的字段名列表
+                items:
+                  type: string
+                type: array
+              payment_terms_norm:
+                description: 归一化付款条件，例如 30D/预付100%
+                type: string
+              payment_terms_raw:
+                description: 原始付款条件文本
+                type: string
+              receiver_location:
+                description: 收货地点/交货地点
+                type: string
+              supplier_name:
+                description: 供应商名称/报价方名称
+                type: string
+              tax_rate:
+                description: 税率，例如 13%
+                type: string
+            required:
+            - doc_type
+            - doc_no
+            - supplier_name
+            - buyer_name
+            - currency
+            - tax_rate
+            - payment_terms_raw
+            - payment_terms_norm
+            - delivery_date_raw
+            - delivery_date_norm
+            - receiver_location
+            - line_items
+            - low_confidence_fields
+            - extraction_status
+            type: object
+        structured_output_enabled: true
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 179
+      id: '17755558006690'
+      position:
+        x: 682
+        y: 483.6919976284763
+      positionAbsolute:
+        x: 682
+        y: 483.6919976284763
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        default_value:
+        - key: text
+          type: string
+          value: '{   "extraction_status": "FAILED_FALLBACK",   "doc_type": "po",   "doc_no":
+            "",   "supplier_name": "",   "buyer_name": "",   "currency": "",   "tax_rate":
+            "",   "payment_terms_raw": "",   "payment_terms_norm": "",   "delivery_date_raw":
+            "",   "delivery_date_norm": "",   "receiver_location": "",   "line_items":
+            [],   "low_confidence_fields": [     "__NODE_FAILED__"   ] }'
+        desc: 节点名称：LLM_Extract_PO；输入：PO 全文文本；输出：PO 结构化字段 JSON；处理：只做字段抽取与低置信度标记，不做风险判断。
+        error_strategy: default-value
+        model:
+          completion_params:
+            temperature: 0
+          mode: chat
+          name: qwen3:8b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 6b8d507e-4137-4478-83ab-0a3787bd410d
+          role: system
+          text: "你是采购单据结构化抽取引擎。\n\n任务：\n从输入的文档文本中抽取指定字段，并严格按照 JSON Schema 返回 structured_output。\n\
+            \n硬性要求：\n1. 只做字段抽取，不做风险判断，不做建议，不做总结。\n2. 缺失字段不要编造。\n3. 无法确认时，字符串填空字符串，数组填空数组，布尔填\
+            \ false，并把字段名写入 low_confidence_fields。\n4. 保留原文语义，同时尽量标准化：\n   - 日期统一为\
+            \ YYYY-MM-DD；无法标准化时保留原文到 *_raw。\n   - 数量和单价转为数字；无法确认时留空字符串。\n   - 币种统一为\
+            \ CNY / USD / EUR 等标准代码；无法确认时留空字符串。\n5. 如果文档中出现多个候选值，选择最明确、最接近正式交易条款的值。\n\
+            6. 输出必须只包含结构化结果，不要输出任何解释文字。"
+        - id: eb69dc3a-4fa5-4c8c-b1d3-a8165d9019c0
+          role: user
+          text: '文档类型：PO
+
+
+            请从以下文档文本中抽取字段：
+
+
+            {{#1775552925423.text#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              buyer_name:
+                description: 采购方名称
+                type: string
+              currency:
+                description: 币种，尽量标准化为 CNY/USD/EUR 等
+                type: string
+              delivery_date_norm:
+                description: 标准化交期，如果可标准化则输出 YYYY-MM-DD
+                type: string
+              delivery_date_raw:
+                description: 原始交期描述
+                type: string
+              doc_no:
+                description: 采购订单编号
+                type: string
+              doc_type:
+                description: 固定为 po
+                enum:
+                - po
+                type: string
+              extraction_status:
+                description: 提取结果（SUCCESS/FAILED_FALLBACK）
+                type: string
+              line_items:
+                description: PO 中的物料行项目
+                items:
+                  properties:
+                    delivery_batch_norm:
+                      description: 标准化交期或批次描述
+                      type: string
+                    delivery_batch_raw:
+                      description: 原始分批交付/交期文本
+                      type: string
+                    item_code:
+                      description: 物料编码
+                      type: string
+                    item_name:
+                      description: 物料名称
+                      type: string
+                    line_no:
+                      description: 行号
+                      type: string
+                    quantity:
+                      description: 数量，建议输出纯数字字符串
+                      type: string
+                    spec_model:
+                      description: 规格/型号
+                      type: string
+                    tax_included:
+                      description: 单价是否含税
+                      type: boolean
+                    unit:
+                      description: 单位
+                      type: string
+                    unit_price:
+                      description: 含税或未税单价原值，建议输出纯数字字符串
+                      type: string
+                  required:
+                  - line_no
+                  - item_code
+                  - item_name
+                  - spec_model
+                  - quantity
+                  - unit
+                  - unit_price
+                  - tax_included
+                  - delivery_batch_raw
+                  - delivery_batch_norm
+                  type: object
+                type: array
+              low_confidence_fields:
+                description: 模型无法确定或有歧义的字段名列表
+                items:
+                  type: string
+                type: array
+              payment_terms_norm:
+                description: 归一化付款条件，例如 30D/预付100%；若 PO 中无此字段则留空字符串
+                type: string
+              payment_terms_raw:
+                description: 原始付款条件文本；若 PO 中无此字段则留空字符串
+                type: string
+              receiver_location:
+                description: 收货地点/交货地点
+                type: string
+              supplier_name:
+                description: 供应商名称
+                type: string
+              tax_rate:
+                description: 税率，例如 13%
+                type: string
+            required:
+            - doc_type
+            - doc_no
+            - supplier_name
+            - buyer_name
+            - currency
+            - tax_rate
+            - payment_terms_raw
+            - payment_terms_norm
+            - delivery_date_raw
+            - delivery_date_norm
+            - receiver_location
+            - line_items
+            - low_confidence_fields
+            - extraction_status
+            type: object
+        structured_output_enabled: true
+        title: LLM 3
+        type: llm
+        vision:
+          enabled: false
+      height: 179
+      id: '17755558034200'
+      position:
+        x: 682
+        y: 687.0382567576203
+      positionAbsolute:
+        x: 682
+        y: 687.0382567576203
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: -49.62738131783749
+      y: 112.20874941927693
+      zoom: 0.6783021637238361
+  rag_pipeline_variables: []

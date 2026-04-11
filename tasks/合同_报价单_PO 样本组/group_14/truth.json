@@ -1,0 +1,116 @@
+{
+  "group_id": "G14",
+  "scenario_type": "multi_risk",
+  "domain": "制造业采购-机械备件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G14",
+      "title": "液压油管总成采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G14",
+      "title": "液压油管总成报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G14",
+      "title": "液压油管总成采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "杭州德茂工业用品有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "验收后月结30天",
+    "delivery_date": "2026-05-19",
+    "receiver_location": "江苏省苏州市华辰动力总成仓",
+    "line_items": [
+      {
+        "item_code": "MEC-HS-7710",
+        "item_name": "液压油管总成",
+        "spec_model": "DM-H25-1500",
+        "quantity": 120,
+        "unit": "根",
+        "unit_price": 160.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      },
+      {
+        "item_code": "MEC-JT-7711",
+        "item_name": "快插接头",
+        "spec_model": "JT-12 不锈钢",
+        "quantity": 240,
+        "unit": "只",
+        "unit_price": 26.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "供应商不一致",
+    "物料不一致",
+    "交期不一致"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "供应商不一致",
+      "conflict_field": "supplier_name",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "杭州德茂工业用品有限公司",
+        "quotation": "杭州德茂工业用品有限公司",
+        "po": "杭州德茂工业材料有限公司"
+      }
+    },
+    {
+      "risk_type": "物料不一致",
+      "conflict_field": "item_name",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract_line_1": "液压油管总成",
+        "quotation_line_1": "液压油管总成",
+        "po_line_1": "高压软管总成"
+      }
+    },
+    {
+      "risk_type": "交期不一致",
+      "conflict_field": "delivery_date",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "2026-05-19",
+        "quotation": "确认订单后20天交付",
+        "po": "2026-05-29"
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "PO 存在供应商主体变化、首行物料名称变化及交期延后，多项风险叠加。",
+    "human_review_points": "确认是否误用了相似供应商与近义物料名称，并核实交期延期原因。",
+    "final_disposition": "整单退回，逐项修正后重新提交。"
+  },
+  "notes": "多风险样本，验证供应商、物料、交期三重异常。"
+}
+

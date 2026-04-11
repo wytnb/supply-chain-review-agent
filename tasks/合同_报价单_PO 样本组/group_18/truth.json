@@ -1,0 +1,59 @@
+{
+  "group_id": "G18",
+  "scenario_type": "clean",
+  "domain": "制造业采购-工业辅料",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G18",
+      "title": "脱模剂采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G18",
+      "title": "脱模剂报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G18",
+      "title": "脱模剂采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "重庆威森工业化学有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "EUR",
+    "tax_rate": "0%",
+    "payment_terms": "到港单据齐全后45天付款",
+    "delivery_date": "2026-05-27",
+    "receiver_location": "江苏省苏州市华辰喷涂事业部辅料仓",
+    "line_items": [
+      {
+        "item_code": "CHE-RA-7201",
+        "item_name": "脱模剂",
+        "spec_model": "WS-Release-18L",
+        "quantity": 90,
+        "unit": "桶",
+        "unit_price": 42.0,
+        "tax_included": false,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [],
+  "risk_evidence": [],
+  "review_decision": "pass",
+  "review_trace": {
+    "system_findings": "欧元结算场景下三单一致，未发现规则型风险。",
+    "human_review_points": "关注危险品运输资料和到港单据完整性即可。",
+    "final_disposition": "通过审查。"
+  },
+  "notes": "正常样本，验证另一种外币场景下的无风险结果。"
+}
+

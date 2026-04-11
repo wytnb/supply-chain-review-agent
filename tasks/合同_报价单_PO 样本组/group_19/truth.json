@@ -1,0 +1,74 @@
+{
+  "group_id": "G19",
+  "scenario_type": "borderline",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G19",
+      "title": "工业相机采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G19",
+      "title": "工业视觉相机报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G19",
+      "title": "机器视觉相机采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "合肥智源传感技术有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "验收合格后月结30天",
+    "delivery_date": "2026-05-28",
+    "receiver_location": "江苏省苏州市华辰视觉检测项目仓",
+    "line_items": [
+      {
+        "item_code": "ELC-CM-4501",
+        "item_name": "工业相机",
+        "spec_model": "ZY-VS-2M-GE",
+        "quantity": 24,
+        "unit": "台",
+        "unit_price": 1850.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [],
+  "risk_evidence": [
+    {
+      "risk_type": "人工复核-近似物料名",
+      "conflict_field": "item_name",
+      "source_documents": [
+        "contract.md",
+        "quotation.md",
+        "po.md"
+      ],
+      "values": {
+        "contract": "工业相机",
+        "quotation": "工业视觉相机",
+        "po": "机器视觉相机"
+      }
+    }
+  ],
+  "review_decision": "manual_review",
+  "review_trace": {
+    "system_findings": "物料名称存在近义表述，但编码和规格完全一致，不应直接判定为风险。",
+    "human_review_points": "人工确认是否为同一物料的不同叫法，并沉淀名称归一规则。",
+    "final_disposition": "进入人工复核，确认后可放行。"
+  },
+  "notes": "边界样本，验证近义物料名的低置信度复核流程。"
+}
+

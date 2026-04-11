@@ -1,0 +1,68 @@
+{
+  "group_id": "G15",
+  "scenario_type": "clean",
+  "domain": "制造业采购-电子元器件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G15",
+      "title": "继电器及微动开关采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G15",
+      "title": "继电器及微动开关报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G15",
+      "title": "继电器及微动开关采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "太仓朗特电子有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结30天",
+    "delivery_date": "2026-05-21",
+    "receiver_location": "江苏省苏州市华辰控制板事业部仓库",
+    "line_items": [
+      {
+        "item_code": "ELC-RL-3101",
+        "item_name": "功率继电器",
+        "spec_model": "LT-24V-20A",
+        "quantity": 1200,
+        "unit": "只",
+        "unit_price": 9.8,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      },
+      {
+        "item_code": "ELC-SW-3102",
+        "item_name": "微动开关",
+        "spec_model": "MS-5A 常开型",
+        "quantity": 1500,
+        "unit": "只",
+        "unit_price": 4.2,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [],
+  "risk_evidence": [],
+  "review_decision": "pass",
+  "review_trace": {
+    "system_findings": "三单字段一致，未发现规则型风险。",
+    "human_review_points": "仅按常规抽样复核关键字段即可。",
+    "final_disposition": "通过审查，可进入执行流程。"
+  },
+  "notes": "正常样本，验证多行项目场景下的低误报。"
+}

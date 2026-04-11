@@ -1,0 +1,59 @@
+{
+  "group_id": "G17",
+  "scenario_type": "clean",
+  "domain": "制造业采购-机械备件",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G17",
+      "title": "感应接近开关采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G17",
+      "title": "感应接近开关报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G17",
+      "title": "感应接近开关采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "南通瑞浦机械科技有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "验收合格后月结60天",
+    "delivery_date": "2026-05-23",
+    "receiver_location": "江苏省太仓市华辰设备升级项目仓",
+    "line_items": [
+      {
+        "item_code": "MEC-SN-9010",
+        "item_name": "感应接近开关",
+        "spec_model": "RP-M18-NPN",
+        "quantity": 300,
+        "unit": "只",
+        "unit_price": 58.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [],
+  "risk_evidence": [],
+  "review_decision": "pass",
+  "review_trace": {
+    "system_findings": "三单字段一致，未触发规则型风险。",
+    "human_review_points": "按常规抽核供应商资质和来料检验计划即可。",
+    "final_disposition": "通过审查。"
+  },
+  "notes": "正常样本，验证单行项目场景下的通过结果。"
+}
+

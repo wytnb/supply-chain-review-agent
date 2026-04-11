@@ -1,0 +1,76 @@
+{
+  "group_id": "G08",
+  "scenario_type": "single_risk",
+  "domain": "制造业采购-工业辅料",
+  "documents": [
+    {
+      "doc_type": "contract",
+      "doc_id": "CT-2026-G08",
+      "title": "工业润滑脂采购合同",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "quotation",
+      "doc_id": "QT-2026-G08",
+      "title": "工业润滑脂报价单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    },
+    {
+      "doc_type": "po",
+      "doc_id": "PO-2026-G08",
+      "title": "工业润滑脂采购订单",
+      "version": "v1.0",
+      "language": "zh-CN"
+    }
+  ],
+  "canonical_fields": {
+    "supplier_name": "嘉兴联盛工业材料有限公司",
+    "buyer_name": "华辰精密制造（苏州）有限公司",
+    "currency": "CNY",
+    "tax_rate": "13%",
+    "payment_terms": "月结30天",
+    "delivery_date": "2026-05-22",
+    "receiver_location": "江苏省苏州市华辰总装厂辅料仓",
+    "line_items": [
+      {
+        "item_code": "CHE-GL-1102",
+        "item_name": "工业润滑脂",
+        "spec_model": "NLGI-2 15kg/桶",
+        "quantity": 60,
+        "unit": "桶",
+        "unit_price": 420.0,
+        "tax_included": true,
+        "delivery_batch": "一次性交付"
+      }
+    ]
+  },
+  "expected_risks": [
+    "缺少关键条款"
+  ],
+  "risk_evidence": [
+    {
+      "risk_type": "缺少关键条款",
+      "conflict_field": "contract_clauses",
+      "source_documents": [
+        "contract.md"
+      ],
+      "values": {
+        "missing_clauses": [
+          "验收条款",
+          "质量/质保条款",
+          "违约责任条款"
+        ]
+      }
+    }
+  ],
+  "review_decision": "reject",
+  "review_trace": {
+    "system_findings": "合同文本缺少多项关键条款，无法支撑后续履约与争议处理。",
+    "human_review_points": "补充验收、质量和违约责任条款后再进入签署流程。",
+    "final_disposition": "退回法务或采购补全关键条款。"
+  },
+  "notes": "单风险样本，验证关键条款缺失识别。"
+}
+

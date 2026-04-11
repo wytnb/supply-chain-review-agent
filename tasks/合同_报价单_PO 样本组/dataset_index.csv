@@ -1,0 +1,21 @@
+group_id,scenario_type,expected_risks,difficulty,is_clean,review_decision,notes
+G01,single_risk,供应商不一致,low,false,reject,单风险-供应商名称错配
+G02,single_risk,物料不一致,low,false,reject,单风险-物料名称变化
+G03,single_risk,数量不一致,low,false,reject,单风险-PO 数量偏少
+G04,single_risk,单价不一致,low,false,reject,单风险-PO 单价偏高
+G05,single_risk,交期不一致,low,false,reject,单风险-PO 交期延后
+G06,single_risk,付款条件不一致,low,false,reject,单风险-PO 付款条件变化
+G07,single_risk,币种/税率不一致,medium,false,reject,单风险-PO 币税条件变化
+G08,single_risk,缺少关键条款,medium,false,reject,单风险-合同缺少验收/质保/违约条款
+G09,multi_risk,供应商不一致|付款条件不一致,medium,false,reject,双风险-供应商与付款条件变化
+G10,multi_risk,物料不一致|数量不一致,medium,false,reject,双风险-多行项目异常
+G11,multi_risk,单价不一致|币种/税率不一致,medium,false,reject,双风险-外币结算场景异常
+G12,multi_risk,交期不一致|缺少关键条款,medium,false,reject,双风险-交期异常与条款缺失
+G13,multi_risk,数量不一致|单价不一致|付款条件不一致,high,false,reject,三风险-数量价格付款同时变化
+G14,multi_risk,供应商不一致|物料不一致|交期不一致,high,false,reject,三风险-供应商物料交期同时变化
+G15,clean,,low,true,pass,正常样本-电子元器件多行项目
+G16,clean,,medium,true,pass,正常样本-USD 外币场景
+G17,clean,,low,true,pass,正常样本-机械备件单行项目
+G18,clean,,medium,true,pass,正常样本-EUR 外币场景
+G19,borderline,,medium,false,manual_review,边界样本-近义物料名需人工复核
+G20,borderline,,high,false,manual_review,边界样本-半结构化交期付款条款需人工复核
